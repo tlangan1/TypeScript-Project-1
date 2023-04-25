@@ -1,9 +1,12 @@
 {
-    "compilerOptions": {
-        "outDir": "dist",
-        "target": "ES2017",
-        "declaration": true,
-        "module": "CommonJS"
-    },
-    "include": ["src"]
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES2017",
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "outDir": "dist",
+    "declaration": true,
+    "noImplicitReturns": true
+  },
+  "include": ["src"]
 }
