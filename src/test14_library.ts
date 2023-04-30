@@ -16,7 +16,6 @@ export function mapDict<T, O>(
 }
 
 // Array.prototype.filter, but for Dict
-// function filterDict(...args: any[]): any {}
 export function filterDict<T>(
   input: Dict<T>,
   filterCB: (item: T) => boolean
@@ -42,3 +41,16 @@ export function reduceDict<T, O>(
   return initialValue;
 }
 /***********************************************************************************************/
+
+export function assertEquals<T>(found: T, expected: T, message: string) {
+  if (found !== expected)
+    throw new Error(
+      `❌ Assertion failed: ${message}\nexpected: ${expected}\nfound: ${found}`
+    );
+  console.log(`✅ OK ${message}`);
+}
+
+export function assertOk(value: any, message: string) {
+  if (!value) throw new Error(`❌ Assertion failed: ${message}`);
+  console.log(`✅ OK ${message}`);
+}

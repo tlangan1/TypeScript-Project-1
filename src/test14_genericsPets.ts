@@ -1,109 +1,32 @@
 import { pets } from "./test14_data";
-import { mapDict, filterDict, reduceDict } from "./test14_library";
+import {
+  mapDict,
+  filterDict,
+  reduceDict,
+  assertEquals,
+  assertOk,
+} from "./test14_library";
 
+//
 // Note that Mike has a test suite that I can leverage to test my solution
-var fruitsFiltered = filterDict(pets, olderThan10);
+var petsFiltered = filterDict(pets, (input) => input.age > 10);
 
 function olderThan10<T>(item: T): boolean {
   return item["age"] > 10;
 }
-console.log("Filtered:", fruitsFiltered);
+console.log("Filtered:", petsFiltered);
 
-var fruitsMapped = mapDict(pets, mapToDogYears);
+var petsMapped = mapDict(pets, (input, name) => ({
+  age: input.age * 7,
+  name,
+}));
 
-function mapToDogYears<T>(input: T, name: string) {
-  return { age: input["age"] * 7, name: name };
-}
+console.log("Mapped:", petsMapped);
 
-console.log("Mapped:", fruitsMapped);
-
-var fruitsReduced = reduceDict(pets, sumAge, 0);
+var petsReduced = reduceDict(pets, (total, input) => total + input.age, 0);
 
 function sumAge<T>(init: number, input: T, name: string): number {
   return init + input["age"];
 }
 
-console.log("Reduced:", fruitsReduced);
-
-// @strict: true
-/////////////////////////////////////////
-/////////// TESTING UTILITIES ///////////
-//////// no need to modify these ////////
-/////////////////////////////////////////
-// console.clear();
-
-function assertEquals<T>(found: T, expected: T, message: string) {
-  if (found !== expected)
-    throw new Error(
-      `❌ Assertion failed: ${message}\nexpected: ${expected}\nfound: ${found}`
-    );
-  console.log(`✅ OK ${message}`);
-}
-
-function assertOk(value: any, message: string) {
-  if (!value) throw new Error(`❌ Assertion failed: ${message}`);
-  console.log(`✅ OK ${message}`);
-}
-// const fruitsWithKgMass = mapDict(fruits, (fruit, name) => ({
-//   ...fruit,
-//   kg: 0.001 * fruit.mass,
-//   name,
-// }));
-// const lemonName: string = fruitsWithKgMass.lemon.name;
-// // @ts-ignore-error
-// const failLemonName: number = fruitsWithKgMass.lemon.name;
-// assertOk(fruitsWithKgMass, "[MAP] mapDict returns something truthy");
-// assertEquals(
-//   fruitsWithKgMass.cherry.name,
-//   "cherry",
-//   '[MAP] .cherry has a "name" property with value "cherry"'
-// );
-// assertEquals(
-//   fruitsWithKgMass.cherry.kg,
-//   0.005,
-//   '[MAP] .cherry has a "kg" property with value 0.005'
-// );
-// assertEquals(
-//   fruitsWithKgMass.cherry.mass,
-//   5,
-//   '[MAP] .cherry has a "mass" property with value 5'
-// );
-// assertEquals(
-//   Object.keys(fruitsWithKgMass).length,
-//   8,
-//   "[MAP] fruitsWithKgMass should have 8 keys"
-// );
-
-// // FILTER
-// // only red fruits
-// const redFruits = filterDict(fruits, (fruit) => fruit.color === "red");
-// assertOk(redFruits, "[FILTER] filterDict returns something truthy");
-// assertEquals(
-//   Object.keys(redFruits).length,
-//   4,
-//   "[FILTER] 4 fruits that satisfy the filter"
-// );
-// assertEquals(
-//   Object.keys(redFruits).sort().join(", "),
-//   "apple, cherry, grape, raspberry",
-//   '[FILTER] Keys are "apple, cherry, grape, raspberry"'
-// );
-
-// // REDUCE
-// // If we had one of each fruit, how much would the total mass be?
-// const oneOfEachFruitMass = reduceDict(
-//   fruits,
-//   (currentMass, fruit) => currentMass + fruit.mass,
-//   0
-// );
-// assertOk(redFruits, "[REDUCE] reduceDict returns something truthy");
-// assertEquals(
-//   typeof oneOfEachFruitMass,
-//   "number",
-//   "[REDUCE] reduceDict returns a number"
-// );
-// assertEquals(
-//   oneOfEachFruitMass,
-//   817,
-//   "[REDUCE] 817g mass if we had one of each fruit"
-// );
+console.log("Reduced:", petsReduced);

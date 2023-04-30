@@ -1,23 +1,25 @@
 import { fruits } from "./test14_data";
-import { mapDict, filterDict, reduceDict } from "./test14_library";
+import {
+  mapDict,
+  filterDict,
+  reduceDict,
+  assertEquals,
+  assertOk,
+} from "./test14_library";
 
 // Note that Mike has a test suite that I can leverage to test my solution
-var fruitsFiltered = filterDict(fruits, greaterThan100);
+var fruitsFiltered = filterDict(fruits, (item) => item.mass > 100);
 
-function greaterThan100<T>(item: T): boolean {
-  return item["mass"] > 100;
-}
 console.log("Filtered:", fruitsFiltered);
 
-var fruitsMapped = mapDict(fruits, mapFruitInputToFruitOutput);
-
-function mapFruitInputToFruitOutput<T>(input: T, name: string) {
-  return { kg: input["mass"] / 1000, name: name };
-}
+var fruitsMapped = mapDict(fruits, (input, name) => ({
+  kg: input.mass / 1000,
+  name,
+}));
 
 console.log("Mapped:", fruitsMapped);
 
-var fruitsReduced = reduceDict(fruits, weighFruit, 0);
+var fruitsReduced = reduceDict(fruits, (init, input) => init + input.mass, 0);
 
 function weighFruit<T>(init: number, input: T, name: string): number {
   return init + input["mass"];
@@ -25,25 +27,12 @@ function weighFruit<T>(init: number, input: T, name: string): number {
 
 console.log("Reduced:", fruitsReduced);
 
-// @strict: true
 /////////////////////////////////////////
 /////////// TESTING UTILITIES ///////////
 //////// no need to modify these ////////
 /////////////////////////////////////////
 console.clear();
 
-function assertEquals<T>(found: T, expected: T, message: string) {
-  if (found !== expected)
-    throw new Error(
-      `❌ Assertion failed: ${message}\nexpected: ${expected}\nfound: ${found}`
-    );
-  console.log(`✅ OK ${message}`);
-}
-
-function assertOk(value: any, message: string) {
-  if (!value) throw new Error(`❌ Assertion failed: ${message}`);
-  console.log(`✅ OK ${message}`);
-}
 const fruitsWithKgMass = mapDict(fruits, (fruit, name) => ({
   ...fruit,
   kg: 0.001 * fruit.mass,
