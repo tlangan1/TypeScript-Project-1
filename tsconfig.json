@@ -6,7 +6,8 @@
     "strictFunctionTypes": true,
     "outDir": "dist",
     "declaration": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "noImplicitThis": true
   },
   "include": ["src"]
 }
