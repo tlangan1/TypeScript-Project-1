@@ -7,7 +7,7 @@ export function mapDict<T, O>(
   fruits: Dict<T>,
   mapFunc: (input: T, key: string) => O
 ): Dict<O> {
-  var output = {};
+  var output: Dict<O> = {};
   for (let key in fruits) {
     output[key] = mapFunc(fruits[key], key);
   }
