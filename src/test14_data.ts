@@ -9,3 +9,9 @@ export const fruits = {
   raspberry: { color: "red", mass: 4 },
   cherry: { color: "red", mass: 5 },
 };
+
+export const pets = {
+  Benny: { type: "dog", breed: "Schnoodle", age: 12, forSale: false },
+  Vixen: { type: "cat", breed: "White Russian", age: 10, forSale: false },
+  Hopper: { type: "rabbit", breed: "Unknown", age: 1, forSale: true },
+};

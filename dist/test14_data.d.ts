@@ -32,3 +32,23 @@ export declare const fruits: {
         mass: number;
     };
 };
+export declare const pets: {
+    Benny: {
+        type: string;
+        breed: string;
+        age: number;
+        forSale: boolean;
+    };
+    Vixen: {
+        type: string;
+        breed: string;
+        age: number;
+        forSale: boolean;
+    };
+    Hopper: {
+        type: string;
+        breed: string;
+        age: number;
+        forSale: boolean;
+    };
+};
