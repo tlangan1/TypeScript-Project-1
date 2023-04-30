@@ -1,96 +1,26 @@
-///// SAMPLE DATA FOR YOUR EXPERIMENTATION PLEASURE (do not modify)
-const fruits = {
-  apple: { color: "red", mass: 100 },
-  grape: { color: "red", mass: 5 },
-  banana: { color: "yellow", mass: 183 },
-  lemon: { color: "yellow", mass: 80 },
-  pear: { color: "green", mass: 178 },
-  orange: { color: "orange", mass: 262 },
-  raspberry: { color: "red", mass: 4 },
-  cherry: { color: "red", mass: 5 },
-};
-
-interface IFruitInput {
-  color: string;
-  mass: number;
-}
-
-interface IFruitOutput {
-  name: string;
-  kg: number;
-}
-
-interface Dict<T> {
-  [k: string]: T;
-}
-
-/***********************************************************************************************/
-// In the first test case a dictionary of objects of the form {name:{color: string, mass: number}}
-// goes in and a dictionary of objects of the form {name:{name: string, kg: number}} comes out.
-/***********************************************************************************************/
-// Array.prototype.map, but for Dict
-function mapDict<T, O>(
-  fruits: Dict<T>,
-  mapFunc: (input: T, key: string) => O
-): Dict<O> {
-  var output = {};
-  for (let key in fruits) {
-    output[key] = mapFunc(fruits[key], key);
-  }
-
-  return output;
-}
-
-// Array.prototype.filter, but for Dict
-// function filterDict(...args: any[]): any {}
-function filterDict<T>(
-  input: Dict<T>,
-  filterCB: (item: T) => boolean
-): Dict<T> {
-  var output = {};
-  for (let key in input) {
-    if (filterCB(input[key])) {
-      output[key] = input[key];
-    }
-  }
-  return output;
-}
-// Array.prototype.reduce, but for Dict
-function reduceDict<T, O>(
-  input: Dict<T>,
-  reducerFunc: (initialValue: O, input: T, key: string) => O,
-  initialValue: O
-): O {
-  for (let key in input) {
-    initialValue = reducerFunc(initialValue, input[key], key);
-  }
-
-  return initialValue;
-}
+import { fruits } from "./test14_data";
+import { mapDict, filterDict, reduceDict } from "./test14_library";
 
 // Note that Mike has a test suite that I can leverage to test my solution
 var fruitsFiltered = filterDict(fruits, greaterThan100);
 
-function greaterThan100(item: IFruitInput): boolean {
-  return item.mass > 100;
+function greaterThan100<T>(item: T): boolean {
+  return item["mass"] > 100;
 }
 console.log("Filtered:", fruitsFiltered);
 
 var fruitsMapped = mapDict(fruits, mapFruitInputToFruitOutput);
 
-function mapFruitInputToFruitOutput(
-  input: IFruitInput,
-  name: string
-): IFruitOutput {
-  return { kg: input.mass / 1000, name: name };
+function mapFruitInputToFruitOutput<T>(input: T, name: string) {
+  return { kg: input["mass"] / 1000, name: name };
 }
 
 console.log("Mapped:", fruitsMapped);
 
 var fruitsReduced = reduceDict(fruits, weighFruit, 0);
 
-function weighFruit(init: number, input: IFruitInput, name: string): number {
-  return init + input.mass;
+function weighFruit<T>(init: number, input: T, name: string): number {
+  return init + input["mass"];
 }
 
 console.log("Reduced:", fruitsReduced);
